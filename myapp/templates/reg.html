@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Patient Registration Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+  body {
+    background: linear-gradient(120deg, #1f4037, #99f2c8);
+    font-family: 'Quicksand', sans-serif;
+    color: #fff;
+    padding: 40px 0;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2 {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 35px;
+    text-shadow: 0 2px 10px rgba(206, 201, 201, 0.4);
+    background: linear-gradient(to right, #06f8f4, #0984e3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  table {
+  background: linear-gradient(to bottom right, #fffbe6, #fff3d9);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+  td {
+  padding: 15px;
+  vertical-align: middle;
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+  td:first-child {
+    width: 30%;
+    text-align: right;
+    padding-right: 25px;
+    color: #0821c6;
+    font-weight: 600;
+  }
+
+  td:last-child {
+    width: 70%;
+  }
+
+  .form-control {
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+  padding: 12px 18px;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #1e272e;
+  backdrop-filter: blur(6px);
+  font-size: 15px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* 🔥 Smart Validation */
+.form-control.error {
+  border: 2px solid #e74c3c !important;
+  box-shadow: 0 0 8px #e74c3c !important;
+}
+
+.form-control.success {
+  border: 2px solid #2ecc71 !important;
+  box-shadow: 0 0 8px #2ecc71 !important;
+}
+
+.form-control:focus {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #2d3436;
+  border-color: #00cec9;
+  box-shadow: 0 0 10px #00cec9;
+  transform: scale(1.01);
+  outline: none;
+}
+
+  textarea.form-control {
+    resize: none;
+  }
+
+  select.form-control {
+    color: #2d3436;
+    background-color: #ecf0f1;
+  }
+
+  select.form-control option {
+    color: #2d3436;
+  }
+
+  button.btn-success {
+    width: 100%;
+    background: linear-gradient(to right, #00cec9, #6c5ce7);
+    border: none;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    color: white;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+  }
+
+  button.btn-success:hover {
+    background: linear-gradient(to right, #6c5ce7, #00cec9);
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+</style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h2 class="text-center">📝 Patient Registration Form</h2>
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <table class="table table-bordered">
+
+              <tr>
+                <td>🆔 Patient ID</td>
+                <td><input type="number" name="patient_id" class="form-control" min="1" max="999999" required /></td>
+              </tr>
+
+              <tr>
+                <td>👤 Patient Name</td>
+                <td><input type="text" name="name" class="form-control" pattern="[A-Za-z ]{3,50}" title="Only letters (3-50 characters)" required /></td>
+              </tr>
+
+              <tr>
+                <td>🎂 Age</td>
+                <td><input type="number" name="age" class="form-control" min="1" max="120" required /></td>
+              </tr>
+
+              <tr>
+                <td>🚻 Gender</td>
+                <td>
+                  <select name="gender" class="form-control" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td>📏 Height (ft)</td>
+                <td><input type="number" step="0.1" name="height" class="form-control" min="2" max="8" required /></td>
+              </tr>
+
+              <tr>
+                <td>⚖️ Weight (kg)</td>
+                <td><input type="number" step="0.1" name="weight" class="form-control" min="10" max="300" required /></td>
+              </tr>
+
+              <tr>
+                <td>🏠 Address</td>
+                <td><textarea name="address" class="form-control" rows="2" required minlength="5"></textarea></td>
+              </tr>
+
+              <tr>
+                <td>📞 Phone Number</td>
+                <td><input type="tel" name="phone" class="form-control" pattern="[6-9]{1}[0-9]{9}" title="Enter valid 10-digit number" required /></td>
+              </tr>
+
+              <tr>
+                <td>📧 Email ID</td>
+                <td><input type="email" name="email" class="form-control" required /></td>
+              </tr>
+
+              <tr>
+                <td>📅 Date</td>
+                <td><input type="date" name="date" id="dateField" class="form-control" required /></td>
+              </tr>
+
+              <tr>
+                <td>💉 Disease</td>
+                <td>
+                  <select name="disease" class="form-control" required>
+                    <option value="">Select Disease</option>
+                    <option value="😊 The Person has Diabetes Disease">😊 The Person has Diabetes Disease</option>
+                    <option value="😐 The Person Does Not Have Diabetes Disease">😐 The Person Does Not Have Diabetes Disease</option>
+                    <option value="❤️ The Person has Heart Disease">❤️ The Person has Heart Disease</option>
+                    <option value="😐 The Person Does Not Have Heart Disease">😐 The Person Does Not Have Heart Disease</option>
+                    <option value="🧠 The Person has Parkinson Disease">🧠 The Person has Parkinson Disease</option>
+                    <option value="😐 The Person Does Not Have Parkinson Disease">😐 The Person Does Not Have Parkinson Disease</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td>💰 Treatment Cost</td>
+                <td><input type="number" step="0.01" name="cost" class="form-control" min="0" max="10000000" required /></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td><button type="submit" class="btn btn-success">Register</button></td>
+              </tr>
+
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
+
+<script>
+let today = new Date().toISOString().split("T")[0];
+document.getElementById("dateField").setAttribute("max", today);
+
+const form = document.querySelector("form");
+const inputs = form.querySelectorAll("input, select, textarea");
+
+// typing validation
+inputs.forEach(input => {
+  input.addEventListener("input", () => {
+    if (input.checkValidity()) {
+      input.classList.remove("error");
+      input.classList.add("success");
+    } else {
+      input.classList.remove("success");
+      input.classList.add("error");
+    }
+  });
+});
+
+// submit validation
+form.addEventListener("submit", function(e){
+  inputs.forEach(input => {
+    if (!input.checkValidity()) {
+      input.classList.add("error");
+      input.classList.remove("success");
+      e.preventDefault();
+    }
+  });
+});
+</script>
+
+  </body>
+</html>

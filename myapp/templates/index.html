@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Diabetes Disease</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1a1a2e);
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
+      color: #fff;
+      padding: 30px 10px;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #00ffe1;
+      text-shadow: 2px 2px 8px #000;
+      margin-bottom: 30px;
+      animation: fadeSlide 1s ease-out;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 22px;
+      color: #00ffae;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      margin-bottom: 25px;
+      width: 90%;
+      max-width: 800px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      width: 85%;
+      max-width: 1300px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+      animation: fadeSlide 1.2s ease-in-out;
+    }
+
+    table {
+      width: 100%;
+      border-spacing: 20px;
+    }
+
+    td {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 16px;
+      vertical-align: top;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 10px;
+      background: linear-gradient(to right, #00ffe1, #0072ff);
+      border-radius: 5px;
+      outline: none;
+      transition: background 0.3s ease-in-out;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #00ffe1;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffe1;
+      transition: 0.3s ease-in-out;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #00ffe1;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffe1;
+    }
+
+    .slider-value {
+      text-align: center;
+      margin-top: 5px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #00ffae;
+      background: rgba(0, 255, 200, 0.1);
+      padding: 5px 10px;
+      border-radius: 8px;
+      box-shadow: inset 0 0 5px #00ffe1;
+    }
+
+    input[type="submit"] {
+      background: linear-gradient(135deg, #00ffe1, #0072ff);
+      padding: 14px 28px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      color: #000;
+      cursor: pointer;
+      transition: 0.4s ease;
+      width: 100%;
+      max-width: 300px;
+      margin: 30px auto 0;
+      display: block;
+      box-shadow: 0 0 15px rgba(0,255,200,0.5);
+    }
+
+    input[type="submit"]:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00ffe1;
+    }
+
+    @media (max-width: 768px) {
+      table {
+        display: block;
+      }
+
+      tr {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      td {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>💉 Diabetes Prediction</h1>
+
+  {% if res == 0 %}
+    <div class="result">😊 The Person Does <strong>Not</strong> Have Diabetes Disease</div>
+  {% elif res == 1 %}
+    <div class="result">⚠️ The Person <strong>Has</strong> Diabetes Disease</div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>👶 Number of Pregnancies
+          <input type="range" name="NP" min="0" max="20" value="0" oninput="np_val.innerText = this.value">
+          <div class="slider-value" id="np_val">0</div>
+        </td>
+        <td>🩸 Glucose Level
+          <input type="range" name="GL" min="0" max="300" value="0" oninput="gl_val.innerText = this.value">
+          <div class="slider-value" id="gl_val">0</div>
+        </td>
+        <td>💓 Blood Pressure
+          <input type="range" name="BPL" min="0" max="200" value="0" oninput="bpl_val.innerText = this.value">
+          <div class="slider-value" id="bpl_val">0</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>🧬 Skin Thickness
+          <input type="range" name="SKV" min="0" max="100" value="0" oninput="skv_val.innerText = this.value">
+          <div class="slider-value" id="skv_val">0</div>
+        </td>
+        <td>💉 Insulin Level
+          <input type="range" name="IL" min="0" max="900" value="0" oninput="il_val.innerText = this.value">
+          <div class="slider-value" id="il_val">0</div>
+        </td>
+        <td>⚖️ BMI
+          <input type="range" name="IBMV" min="0" max="70" step="0.1" value="0" oninput="bmi_val.innerText = this.value">
+          <div class="slider-value" id="bmi_val">0.0</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>🧪 Pedigree Function
+          <input type="range" name="DPFV" min="0" max="2" step="0.01" value="0" oninput="dpfv_val.innerText = this.value">
+          <div class="slider-value" id="dpfv_val">0.00</div>
+        </td>
+        <td>🎂 Age
+          <input type="range" name="AP" min="0" max="120" value="0" oninput="ap_val.innerText = this.value">
+          <div class="slider-value" id="ap_val">0</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="6">
+          <input type="submit" value="🔍 SUBMIT">
+        </td>
+      </tr>
+    </table>
+  </form>
+</body>
+</html>
